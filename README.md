@@ -4,7 +4,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/bhaskar253/flowkit.svg)](https://pkg.go.dev/github.com/bhaskar253/flowkit)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/bhaskar253/flowkit)](https://go.dev/)
 [![License](https://img.shields.io/github/license/bhaskar253/flowkit)](LICENSE)
-[![GitHub Stars](https://img.shields.io/github/stars/bhaskar253/flowkit)](https://github.com/bhaskar253/flowkit/stargazers)
+<!-- [![GitHub Stars](https: //img.shields.io/github/stars/bhaskar253/flowkit)](https://github.com/bhaskar253/flowkit/stargazers) -->
 
 A lightweight generic workflow and pipeline toolkit for Go.
 
