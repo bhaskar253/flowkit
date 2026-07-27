@@ -1,0 +1,106 @@
+# Copyright 2026 Bhaskar
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: FlowKit CI
+
+on:
+
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+
+jobs:
+
+  test:
+
+    name: FlowKit CI - ${{ matrix.os }}
+
+    runs-on: ${{ matrix.os }}
+
+
+    strategy:
+
+      fail-fast: false
+
+      matrix:
+
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+
+        go:
+          - "1.20.x"
+          - "1.21.x"
+          - "1.22.x"
+          - "1.23.x"
+          - "1.24.x"
+          - "1.25.x"
+          - "1.26.x"
+
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go }}
+          cache: true
+
+
+      - name: Display Go Version
+        run: |
+          go version
+
+
+      - name: Format Check
+        shell: bash
+        run: |
+          files=$(gofmt -l .)
+
+          if [ -n "$files" ]; then
+            echo "The following files need gofmt:"
+            echo "$files"
+            exit 1
+          fi
+
+
+      - name: Vet
+        run: |
+          go vet ./...
+
+
+      - name: Lint
+        uses: golangci/golangci-lint-action@v7
+        with:
+          version: latest
+
+
+      - name: Test
+        run: |
+          go test ./...
+
+
+      - name: Build
+        run: |
+          go build ./...
